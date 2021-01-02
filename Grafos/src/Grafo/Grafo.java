@@ -33,9 +33,9 @@ public class Grafo {
     public Vertice buscaVertice(String nomeVertice){
 
         if(!vertices.isEmpty()) {
-            for (int i = 0; i < vertices.size(); i++) {
-                if (vertices.get(i).nome.equals(nomeVertice)) {
-                    return vertices.get(i);
+            for(Vertice vertice:vertices){
+                if (vertice.nome.equals(nomeVertice)) {
+                    return vertice;
                 }
             }
         }
@@ -50,6 +50,13 @@ public class Grafo {
 
         return vertice;
     }
+
+//    public void removerVertice(String nomeVertice){
+//        for (Vertice vertice:vertices) {
+//
+//        }
+//
+//    }
 
     public Integer getNumeroArestas() {
         return numeroArestas;
