@@ -1,4 +1,4 @@
-package Entidades;
+package Grafo;
 
 import java.util.ArrayList;
 import java.util.List;

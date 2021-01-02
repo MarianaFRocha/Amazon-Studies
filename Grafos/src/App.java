@@ -1,6 +1,4 @@
-import Entidades.Aresta;
-import Entidades.Grafo;
-import Entidades.Vertice;
+import Grafo.Grafo;
 
 import java.util.Scanner;
 

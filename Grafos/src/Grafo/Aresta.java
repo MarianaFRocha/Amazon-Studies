@@ -1,4 +1,4 @@
-package Entidades;
+package Grafo;
 
 public class Aresta {
 
