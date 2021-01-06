@@ -7,97 +7,85 @@ import java.util.regex.*;
 public class Solution {
 
 
-    private static void printIntArray(int[] array) {
-        for (int a : array) {
-            System.out.print(a + " ");
-        }
-        System.out.println();
-    }
-
-    private static void printDoubleArray(double[] array) {
-        for (double a : array) {
-            System.out.print(a + " ");
-        }
-        System.out.println();
-    }
 
 
     /*
      * Complete the runningMedian function below.
      */
-    static double[] runningMedian(int[] a) {
+    static int runningMedian(int numOfParts, List<Integer> parts) {
 
-        double[] input = new double[a.length];
-        int[] aux = new int[a.length];
+        int result = 0;
 
-        for (int i = 0; i < a.length; i++) {
-            if (i == 0) {
-                aux[i] = a[i];
-            }
+        if (numOfParts > 1) {
 
-            boolean findPos = true;
-            int posAux = i;
-            int menor;
-            int newNumber = a[i];
+            while (!parts.isEmpty()) {
 
-            while (findPos && posAux != 0) {
-                posAux = posAux - 1;
-                menor = aux[posAux];
+                int  small1 = parts.get(0), small2 = parts.get(1), number;
+                int index1 = 0, index2 = 1;
 
-                if (newNumber < menor) {
-                    aux[posAux + 1] = menor;
+                System.out.println("Vetor: " + parts);
 
-                    if (posAux == 0) {
-                        aux[posAux] = newNumber;
-                        findPos = false;
-                    }
-                } else {
-                    aux[posAux + 1] = newNumber;
-                    findPos = false;
+
+                if (numOfParts == 2) {
+                    result += small1 + small2;
+                    parts.remove(index1);
+                    parts.remove(index2-1);
+
+                    return result;
                 }
+
+                if (small1<small2){
+                    small1 = parts.get(1); small2 = parts.get(0);
+                    index1 = 1; index2 = 0;
+                }
+
+                for (int i = 2; i < numOfParts; i++) {
+                    System.out.println("small1: " + small1 + " small2: " + small2);
+                    number = parts.get(i);
+
+                    System.out.println("number: " + number);
+
+                    if (number<small1){
+                        small1 = number;
+                        index1= i;
+                    }else{
+                        if(number<small2){
+                            small2 = number;
+                            index2 = i;
+                        }
+                    }
+                }
+
+                System.out.println("small1: " + small1 + " small2: " + small2);
+
+                int minActualResult = small1 + small2;
+
+                result += minActualResult;
+                parts.remove(index1);
+                if(index1<=index2) {
+                    index2--;
+                }
+                parts.remove(index2);
+                parts.add(minActualResult);
+
+                numOfParts--;
             }
 
-            printIntArray(aux);
-
-            if (i % 2 == 0) {
-                int pos = i / 2;
-                input[i] = aux[pos] / 1.0;
-            } else {
-                int posSuperior = i / 2;
-                int posInferior = (int) Math.ceil((double) i / 2);
-                input[i] = (aux[posInferior] + aux[posSuperior]) / 2.0;
-            }
         }
 
-        return input;
+        return result;
     }
 
-    private static final Scanner scanner = new Scanner(System.in);
-
     public static void main(String[] args) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("D:/Users/marif/Documents/Codigos/GitHub/Amazon-Studies/Problemas/Running Median/src/output.txt"));
 
-        int aCount = Integer.parseInt(scanner.nextLine().trim());
+        List<Integer> entrada = new ArrayList<>();
+        entrada.add(1);
+        entrada.add(4);
+        entrada.add(2);
 
-        int[] a = new int[aCount];
+        System.out.println("Entrada: " + entrada);
+        System.out.println("Resultado: " + runningMedian(3, entrada));
 
-        for (int aItr = 0; aItr < aCount; aItr++) {
-            int aItem = Integer.parseInt(scanner.nextLine().trim());
-            a[aItr] = aItem;
-        }
 
-        double[] result = runningMedian(a);
-
-        for (int resultItr = 0; resultItr < result.length; resultItr++) {
-            bufferedWriter.write(String.valueOf(result[resultItr]));
-
-            if (resultItr != result.length - 1) {
-                bufferedWriter.write("\n");
-            }
-        }
-
-        bufferedWriter.newLine();
-
-        bufferedWriter.close();
     }
 }
